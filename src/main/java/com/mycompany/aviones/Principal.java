@@ -16,15 +16,18 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author SPC7Z
+ * @author Valeria Castañeda
  */
 public class Principal {
-    
+    /**
+     * Declaracion de variables y objetos
+     */
     private List<Silla> listaPreferencial = new ArrayList<>();
     private List<Silla> listaGeneral = new ArrayList<>();
     private List<Silla> listaMixto = new ArrayList<>();
     private Silla silla;
     private String id;
+    private String idSilla;
     private int identificacion;
     private String nombre;
     private String apellido;
@@ -32,13 +35,19 @@ public class Principal {
     private int numeroSilla;
     private String tipoSilla;
     Scanner teclado = new Scanner(System.in);
-
+    
+    /**
+     * Constructor de la clase
+     */
+    
     public Principal() {
         
         menu();
         
     }
-
+    /**
+     * Metodo principal que imprime menu y llama demas metodos
+     */
     public void menu(){
         int opc2;
 
@@ -124,6 +133,10 @@ public class Principal {
 
     }
     
+    /**
+     * Metodo que llena datos por defecto
+     */
+    
     private void llenaDatos(){
         
         listaPreferencial.add(silla = new Silla("preferencial", 1, 0, null));
@@ -167,6 +180,10 @@ public class Principal {
         
     }
     
+    /**
+     * Metodo que imprime matriz del avion preferencial
+     */
+    
     private void imprimeSillaPrefer(){
         int cont=0;
                 System.out.println("PREFERENCIAL/----------\\------------");
@@ -193,7 +210,9 @@ public class Principal {
                 System.out.println("\n");
         
     }
-    
+    /**
+     * Metodo que imprime matriz del avion general
+     */
     private void imprimeSillaGener(){
         System.out.println("GENERAL-----/----------\\------------");
         System.out.println("-----------/------------\\----------");
@@ -219,7 +238,9 @@ public class Principal {
                 System.out.println("\n");
                 System.out.println("\n");
     }
-    
+    /**
+     * Metodo que imprime matriz del avion mixto
+     */
     private void imprimeSillaMix(){
         
         int cont=0;
@@ -250,7 +271,9 @@ public class Principal {
                 System.out.println("\n");
                 System.out.println("\n");
     }
-    
+    /**
+     * Metodo que realiza venta de la silla
+     */
     private void vendeTiquete(){
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -282,10 +305,41 @@ public class Principal {
                 date = format.parse(fechaNac);
                 System.out.print("NOMBRE : ");
                 nombre = teclado.next();
+                if(validaNombre(nombre)==2){
+                    System.out.print("NOMBRE : ");
+                    nombre = teclado.next();
+                    if(validaNombre(nombre)==2){
+                        System.out.print("NOMBRE : ");
+                        nombre = teclado.next();
+                    }
+                }
                 System.out.print("APELLIDO : ");
                 apellido = teclado.next();
+                if(validaApel(apellido)==2){
+                    System.out.print("APELLIDO : ");
+                    apellido = teclado.next();
+                    if(validaApel(apellido)==2){
+                        System.out.print("APELLIDO : ");
+                        apellido = teclado.next();
+                    }
+                }
                 System.out.print("NUMERO DE SILLA : ");
-                numeroSilla = teclado.nextInt();
+                idSilla = teclado.next();
+                Pattern p = Pattern.compile("^[0-9]$");
+                Matcher matcher = p.matcher(idSilla);
+                boolean cadenaValida = matcher.matches();
+                if (cadenaValida) {
+                    System.out.println("--Ok");
+                } else{
+                    System.out.print("NUMERO DE SILLA : ");
+                    idSilla = teclado.next();
+                    matcher = p.matcher(idSilla);
+                    cadenaValida = matcher.matches();
+                    if (cadenaValida) {
+                    System.out.println("--Ok");
+                    }
+                }
+                numeroSilla = Integer.parseInt(idSilla);
                 System.out.println("TIPO DE VUELO (G/P): ");
                 tipoSilla = teclado.next();
                 if(tipoSilla.equalsIgnoreCase("g")){
@@ -344,7 +398,9 @@ public class Principal {
             vendeTiquete();
         }
     }
-    
+    /**
+     * Metodo que imprime factura de la compra realizada
+     */
     private void imprimeFactura(){
         
         System.out.println("*********************************************");
@@ -361,12 +417,15 @@ public class Principal {
         System.out.println("********************************************");
         
     }
-    
+    /**
+     * Metodo que realiza validacion de datos
+     */
     private int validaNombre(String cadena){
-        int aux=0;
-        Pattern p = Pattern.compile("^[a-zA-Z\\s]");
+        int aux;
+        Pattern p = Pattern.compile("^[a-zA-Z\\s]$");
         Matcher matcher = p.matcher(cadena);
         boolean cadenaValida = matcher.matches();
+        aux=0;
         if (cadenaValida) {
             System.out.println("--Ok");
             aux=1;
@@ -377,7 +436,28 @@ public class Principal {
         }
         return aux;
     }
-    
+    /**
+     * Metodo que realiza validacion de datos
+     */
+    private int validaApel(String cadena){
+        int aux;
+        Pattern p = Pattern.compile("^[a-zA-Z\\s]$");
+        Matcher matcher = p.matcher(cadena);
+        boolean cadenaValida = matcher.matches();
+        aux=0;
+        if (cadenaValida) {
+            System.out.println("--Ok");
+            aux=1;
+        }
+        else {
+            System.out.println("El dato NO es válido");
+            aux=2;
+        }
+        return aux;
+    }
+    /**
+     * Metodo que realiza validacion de datos
+     */
     private int validaFecha(String fecha){
         int aux=0;
         Pattern p = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{4}");
@@ -394,7 +474,9 @@ public class Principal {
         }
         return aux;
     }
-    
+    /**
+     * Metodo que realiza validacion de datos
+     */
     private int validaId(String id){
         int aux=0;
         Pattern p = Pattern.compile("^[0-9]{10}$");

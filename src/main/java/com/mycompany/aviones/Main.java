@@ -7,10 +7,13 @@ package com.mycompany.aviones;
 
 /**
  *
- * @author SPC7Z
+ * @author Valeria Castañeda
  */
 public class Main {
-    
+    /**
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {
         Principal p = new Principal();
     }

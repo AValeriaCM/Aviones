@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author SPC7Z
+ * @author Valeria Castañeda
  */
 public class Persona {
     
@@ -17,42 +17,72 @@ public class Persona {
     private String nombre;
     private String apellido;
     private Date fechaNac;
-
+/**
+ * 
+ * @param identificacion
+ * @param nombre
+ * @param apellido
+ * @param fechaNac 
+ */
     public Persona(int identificacion, String nombre, String apellido, Date fechaNac) {
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
     }
-
+/**
+ * 
+ * @return 
+ */
     public int getIdentificacion() {
         return identificacion;
     }
-
+/**
+ * 
+ * @param identificacion 
+ */
     public void setIdentificacion(int identificacion) {
         this.identificacion = identificacion;
     }
-
+/**
+ * 
+ * @return 
+ */
     public String getNombre() {
         return nombre;
     }
-
+/**
+ * 
+ * @param nombre 
+ */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+/**
+ * 
+ * @return 
+ */
     public String getApellido() {
         return apellido;
     }
-
+/**
+ * 
+ * @param apellido 
+ */
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-
+/**
+ * 
+ * @return 
+ */
     public Date getFechaNac() {
         return fechaNac;
     }
-
+/**
+ * 
+ * @param fechaNac 
+ */
     public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
