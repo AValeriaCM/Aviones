@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -22,6 +24,7 @@ public class Principal {
     private List<Silla> listaGeneral = new ArrayList<>();
     private List<Silla> listaMixto = new ArrayList<>();
     private Silla silla;
+    private String id;
     private int identificacion;
     private String nombre;
     private String apellido;
@@ -256,61 +259,79 @@ public class Principal {
         try{
             
             System.out.print("IDENTIFICACION : ");
-            identificacion = teclado.nextInt();
-            System.out.println("FECHA DE NACIMIENTO (dd/MM/yyyy) : ");
-            fechaNac = teclado.next();
-            date = format.parse(fechaNac);
-            System.out.print("NOMBRE : ");
-            nombre = teclado.next();
-            System.out.print("APELLIDO : ");
-            apellido = teclado.next();
-
-            System.out.print("NUMERO DE SILLA : ");
-            numeroSilla = teclado.nextInt();
-            System.out.println("TIPO DE VUELO (G/P): ");
-            tipoSilla = teclado.next();
-            if(tipoSilla.equalsIgnoreCase("g")){
-                tipoSilla = "general";
-            } else{
-                tipoSilla = "preferencial";
-            }
-            
-            Persona persona1 = new Persona(identificacion, nombre, apellido, date);
-            
-            silla = new Silla(tipoSilla,numeroSilla, 1, persona1);
-            
-            if(tipoSilla.equalsIgnoreCase("general")){
-
-                for (Silla silla1 : listaGeneral) {
-                    if(silla1.getId() == silla.getId()){
-                        silla1.setTipo(tipoSilla);
-                        silla1.setId(numeroSilla);
-                        silla1.setEstado(1);
-                        silla1.setPersona(persona1);
+                id = teclado.next();
+                if(validaId(id)==2){
+                    System.out.print("IDENTIFICACION : ");
+                    id = teclado.next();
+                    if(validaId(id)==2){
+                        System.out.print("IDENTIFICACION : ");
+                        id = teclado.next();
                     }
                 }
-            } else if(tipoSilla.equalsIgnoreCase("preferencial")){
+           
+                System.out.println("FECHA DE NACIMIENTO (dd/MM/yyyy) : ");
+                fechaNac = teclado.next();
+                if(validaFecha(fechaNac)==2){
+                    System.out.println("FECHA DE NACIMIENTO (dd/MM/yyyy) : ");
+                    fechaNac = teclado.next();
+                     if(validaFecha(fechaNac)==2){
+                        System.out.println("FECHA DE NACIMIENTO (dd/MM/yyyy) : ");
+                        fechaNac = teclado.next();
+                     }
+                }
+                date = format.parse(fechaNac);
+                System.out.print("NOMBRE : ");
+                nombre = teclado.next();
+                System.out.print("APELLIDO : ");
+                apellido = teclado.next();
+                System.out.print("NUMERO DE SILLA : ");
+                numeroSilla = teclado.nextInt();
+                System.out.println("TIPO DE VUELO (G/P): ");
+                tipoSilla = teclado.next();
+                if(tipoSilla.equalsIgnoreCase("g")){
+                    tipoSilla = "general";
+                } else if(tipoSilla.equalsIgnoreCase("p")){
+                    tipoSilla = "preferencial";
+                } else{
+                    System.out.println("DATO INCORRECTO");
+                }
+                identificacion = Integer.parseInt(id);
+                Persona persona1 = new Persona(identificacion, nombre, apellido, date);
+
+                silla = new Silla(tipoSilla,numeroSilla, 1, persona1);
                 
-                for (Silla silla2 : listaPreferencial) {
-                    if(silla2.getId() == silla.getId()){
-                        silla2.setTipo(tipoSilla);
-                        silla2.setId(numeroSilla);
-                        silla2.setEstado(1);
-                        silla2.setPersona(persona1);
-                    }
-                }
-            } else{
-                
-                for (Silla silla3 : listaMixto) {
-                    if(silla3.getId() == silla.getId()){
-                        silla3.setTipo(tipoSilla);
-                        silla3.setId(numeroSilla);
-                        silla3.setEstado(1);
-                        silla3.setPersona(persona1);
-                    }
-                }
-            }
+                if(tipoSilla.equalsIgnoreCase("general")){
 
+                    for (Silla silla1 : listaGeneral) {
+                        if(silla1.getId() == silla.getId()){
+                            silla1.setTipo(tipoSilla);
+                            silla1.setId(numeroSilla);
+                            silla1.setEstado(1);
+                            silla1.setPersona(persona1);
+                        }
+                    }
+                } else if(tipoSilla.equalsIgnoreCase("preferencial")){
+
+                    for (Silla silla2 : listaPreferencial) {
+                        if(silla2.getId() == silla.getId()){
+                            silla2.setTipo(tipoSilla);
+                            silla2.setId(numeroSilla);
+                            silla2.setEstado(1);
+                            silla2.setPersona(persona1);
+                        }
+                    }
+                } else{
+
+                    for (Silla silla3 : listaMixto) {
+                        if(silla3.getId() == silla.getId()){
+                            silla3.setTipo(tipoSilla);
+                            silla3.setId(numeroSilla);
+                            silla3.setEstado(1);
+                            silla3.setPersona(persona1);
+                        }
+                    }
+                }
+                //}while(validaNombre(nombre)&&validaNombre(apellido)&&validaFecha(fechaNac)&&validaId(id));
         } catch (ParseException e){
             teclado.reset();
             System.out.println("VALORES INCORRECTOS");
@@ -341,5 +362,52 @@ public class Principal {
         
     }
     
+    private int validaNombre(String cadena){
+        int aux=0;
+        Pattern p = Pattern.compile("^[a-zA-Z\\s]");
+        Matcher matcher = p.matcher(cadena);
+        boolean cadenaValida = matcher.matches();
+        if (cadenaValida) {
+            System.out.println("--Ok");
+            aux=1;
+        }
+        else {
+            System.out.println("El dato NO es válido");
+            aux=2;
+        }
+        return aux;
+    }
     
+    private int validaFecha(String fecha){
+        int aux=0;
+        Pattern p = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{4}");
+        Matcher matcher = p.matcher(fecha);
+        
+        boolean cadenaValida = matcher.matches();
+        if (cadenaValida) {
+            System.out.println("--Ok");
+            aux=1;
+        }
+        else {
+            System.out.println("La fecha NO es válida");
+            aux=2;
+        }
+        return aux;
+    }
+    
+    private int validaId(String id){
+        int aux=0;
+        Pattern p = Pattern.compile("^[0-9]{10}$");
+        Matcher matcher = p.matcher(id);
+        boolean cadenaValida = matcher.matches();
+        if (cadenaValida) {
+            System.out.println("--Ok");
+            aux=1;
+        }
+        else {
+            System.out.println("Id NO es válido");
+            aux=2;
+        }
+        return aux;
+    }
 }
